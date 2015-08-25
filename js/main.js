@@ -1,8 +1,9 @@
-var program = {
-    init: function () {
-        this.getNetworkData();
-    },
-    sizeof: function (str, charset) {
+
+
+
+(function (w) {
+    var def = undefined;
+    function sizeof(str, charset) {
         var total = 0,
             charCode,
             i,
@@ -32,21 +33,9 @@ var program = {
             }
         }
         return total;
-    },
-    getNetworkData: function () {
-        var _this = this;
-        chrome.devtools.network.getHAR(function (harLog) {
-//            var item;
-//            for (item in harLog) {
-//                $('#data').append('<p>'+item+':'+ harLog.item + '</p>');
-//            }
-        });
-        chrome.devtools.network.onRequestFinished.addListener(function(Request) {
-//            Request.getContent(function (content) {
-//                $('#data').append('<p>' + content  + '</p>');
-//            });
-        });
+    }
 
+    function getNetworkData () {
         chrome.devtools.inspectedWindow.getResources(function (arr) {
             var html = '',i = 0;
             arr.forEach(function (item) {
@@ -61,5 +50,51 @@ var program = {
 
         });
     }
-};
-program.init();
+    function getEntries() {
+        var entries;
+        if(chrome && chrome.devtools) {
+            var devTools = chrome.devtools;
+            var inspectedWindow = devTools.inspectedWindow;
+            var evalStr = '(function () {var entries = window.performance.getEntries(), key, temp = {}, newArr = [];entries.forEach(function (item) {for (key in item) {temp[key] = item[key];}newArr.push(temp);});return newArr;}());';
+            inspectedWindow.eval(evalStr, function(result, e) {
+                if(e) {
+                    document.body.innerHTML = 'Eval code error : ' + e;
+                } else {
+//                    for (var item in result[0]) {
+//                        alert(item);
+//                    }
+                    alert(result[0].name);
+                }
+            });
+        } else {
+            entries = window.performance.getEntries();
+        }
+    }
+
+//    var data = [];
+//    chrome.devtools.network.onRequestFinished.addListener(
+//        function(request) {
+//            var item = {
+//                url: def,
+//                fileType: def,
+//                size: def,
+//                startTime: def,
+//                endTime: def,
+//                status: def
+//            };
+//            item.url = request.request.url;
+//
+//    });
+//    var timer;
+//    w.afterReload = function (msg) {
+//        if(msg === 'reloadcomplete') {
+//            clearTimeout(timer);
+//            timer = setTimeout(function() {
+//                getEntries();
+//            }, 2000);
+//        }
+//    };
+    getEntries();
+
+}(window));
+

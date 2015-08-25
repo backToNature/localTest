@@ -3,8 +3,20 @@ chrome.devtools.panels.create("performance", '../images/selectorInspecer_24_24_4
 		panel.onHidden.addListener(function() {
 			
 		});
-		panel.onShown.addListener(function() {
-			
-		});
+        var _window;
+
+        var tabId = chrome.devtools.inspectedWindow.tabId;
+        var port = chrome.runtime.connect({
+            name: 'performance_' + tabId
+        });
+        port.onMessage.addListener(function(msg) {
+            if (_window) {
+                _window.afterReload(msg);
+            }
+        });
+        panel.onShown.addListener(function tmp(panelWindow) {
+            panel.onShown.removeListener(tmp);
+            _window = panelWindow;
+        });
 	}
 );

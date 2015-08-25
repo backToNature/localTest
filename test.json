@@ -1,0 +1,67 @@
+{
+    method: "GET",
+    url: "http://open.chrome.360.cn/extension_dev/sidebar.js",
+    httpVersion: "HTTP/1.1",
+    headers: [
+        {
+            name: "Cookie",
+            value: "__huid=10jO689BNlu%2B%2ByGntIlJBPXz2nWq0fSwA4xLM2TAU46Hg%3D"
+        },
+        {
+            name: "RA-Sid",
+            value: "7B7E46EF-20150105-060411-8f873d-c14acc"
+        },
+        {
+            name: "Accept-Encoding",
+            value: "gzip, deflate, sdch"
+        },
+        {
+            name: "Host",
+            value: "open.chrome.360.cn"
+        },
+        {
+            name: "Accept-Language",
+            value: "zh-CN,zh;q=0.8,en;q=0.6"
+        },
+        {
+            name: "User-Agent",
+            value: "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.155 Safari/537.36"
+        },
+        {
+            name: "Accept",
+            value: "*/*"
+        },
+        {
+            name: "Cache-Control",
+            value: "max-age=0"
+        },
+        {
+            name: "Referer",
+            value: "http://open.chrome.360.cn/extension_dev/devtools.network.html"
+        },
+        {
+            name: "Proxy-Connection",
+            value: "keep-alive"
+        },
+        {
+            name: "RA-Ver",
+            value: "3.0.7"
+        },
+        {
+            name: "If-Modified-Since",
+            value: "Tue, 10 Jun 2014 08:47:20 GMT"
+        }
+    ],
+    queryString: [ ],
+    cookies: [
+        {
+            name: "__huid",
+            value: "10jO689BNlu%2B%2ByGntIlJBPXz2nWq0fSwA4xLM2TAU46Hg%3D",
+            expires: null,
+            httpOnly: false,
+            secure: false
+        }
+    ],
+    headersSize: 619,
+    bodySize: 0
+}
