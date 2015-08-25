@@ -34,5 +34,3 @@ chrome.tabs.onUpdated.addListener(function(id, info, tab) {
         notifyDevtools('reloadcomplete', id);
     }
 });
-
-

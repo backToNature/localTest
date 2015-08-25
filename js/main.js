@@ -50,20 +50,33 @@
 
         });
     }
-    function getEntries() {
+    function renderData(data) {
+
+    }
+    function getEntries(netData) {
         var entries;
         if(chrome && chrome.devtools) {
             var devTools = chrome.devtools;
             var inspectedWindow = devTools.inspectedWindow;
-            var evalStr = '(function () {var entries = window.performance.getEntries(), key, temp = {}, newArr = [];entries.forEach(function (item) {for (key in item) {temp[key] = item[key];}newArr.push(temp);});return newArr;}());';
+            var evalStr = '(function(){var entries=window.performance.getEntries(),key,newArr=[];function copy(obj){var temp={},key;for(key in obj){temp[key]=obj[key]}return temp}entries.forEach(function(item){newArr.push(copy(item))});return newArr}());';
             inspectedWindow.eval(evalStr, function(result, e) {
                 if(e) {
                     document.body.innerHTML = 'Eval code error : ' + e;
                 } else {
-//                    for (var item in result[0]) {
-//                        alert(item);
-//                    }
-                    alert(result[0].name);
+                    // window.performance.getEntries()不会获取html文件
+                    entries = result;
+                    var a = [], b = [];
+
+                    netData.forEach(function (item) {
+                        a.push(item.request.url);
+                    });
+                    entries.forEach(function (item) {
+                        b.push(item.name);
+                    });
+
+                    var c = _.difference(a, b);
+                    // alert(JSON.stringify(aa));
+
                 }
             });
         } else {
@@ -71,30 +84,23 @@
         }
     }
 
-//    var data = [];
-//    chrome.devtools.network.onRequestFinished.addListener(
-//        function(request) {
-//            var item = {
-//                url: def,
-//                fileType: def,
-//                size: def,
-//                startTime: def,
-//                endTime: def,
-//                status: def
-//            };
-//            item.url = request.request.url;
-//
-//    });
-//    var timer;
-//    w.afterReload = function (msg) {
-//        if(msg === 'reloadcomplete') {
-//            clearTimeout(timer);
-//            timer = setTimeout(function() {
-//                getEntries();
-//            }, 2000);
-//        }
-//    };
-    getEntries();
+    var data2 = [];
+    chrome.devtools.network.onRequestFinished.addListener(
+        function(request) {
+            var item = {
+                url: def,
+                fileType: def,
+                size: def,
+                startTime: def,
+                endTime: def,
+                status: def
+            };
+            var PerformanceResourceTiming;
+            data2.push({request: request.request, response: request.response});
+    });
+    w.afterReload = function (msg) {
+        getEntries(data2);
+    };
+
 
 }(window));
-

@@ -65,3 +65,133 @@
     headersSize: 619,
     bodySize: 0
 }
+
+
+{
+    "status": 200,
+    "statusText": "OK",
+    "httpVersion": "HTTP/1.1",
+    "headers": [
+        {
+            "name": "Date",
+            "value": "Tue, 25 Aug 2015 16:12:13 GMT"
+        },
+        {
+            "name": "Server",
+            "value": "FSS"
+        },
+        {
+            "name": "Connection",
+            "value": "keep-alive"
+        },
+        {
+            "name": "P3P",
+            "value": "CP=\"CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR\""
+        },
+        {
+            "name": "Content-Length",
+            "value": "0"
+        },
+        {
+            "name": "Content-Type",
+            "value": "application/x-javascript"
+        }
+    ],
+    "cookies": [],
+    "content": {
+        "size": 0,
+        "mimeType": "application/x-javascript",
+        "compression": 0
+    },
+    "redirectURL": "",
+    "headersSize": 244,
+    "bodySize": 0,
+    "_transferSize": 244
+}
+
+{
+    "status": 200,
+    "statusText": "OK",
+    "httpVersion": "HTTP/1.1",
+    "headers": [
+        {
+            "name": "Date",
+            "value": "Tue, 25 Aug 2015 15:24:47 GMT"
+        },
+        {
+            "name": "Via",
+            "value": "cache63.l2et2-1[0,304-0,H], cache33.l2et2-1[1,0], kunlun10.cn143[80,200-0,H], kunlun8.cn143[80,0]"
+        },
+        {
+            "name": "Last-Modified",
+            "value": "Wed, 15 Jul 2015 07:20:30 GMT"
+        },
+        {
+            "name": "Server",
+            "value": "Tengine"
+        },
+        {
+            "name": "Age",
+            "value": "3022"
+        },
+        {
+            "name": "ETag",
+            "value": "\"55a609be-b2e\""
+        },
+        {
+            "name": "X-Cache",
+            "value": "HIT TCP_REFRESH_HIT dirn:6:291481914"
+        },
+        {
+            "name": "Content-Type",
+            "value": "image/x-icon"
+        },
+        {
+            "name": "X-Swift-CacheTime",
+            "value": "3600"
+        },
+        {
+            "name": "Connection",
+            "value": "keep-alive"
+        },
+        {
+            "name": "Accept-Ranges",
+            "value": "bytes"
+        },
+        {
+            "name": "Content-Length",
+            "value": "2862"
+        },
+        {
+            "name": "X-Swift-SaveTime",
+            "value": "Tue, 25 Aug 2015 16:15:09 GMT"
+        }
+    ],
+    "cookies": [],
+    "content": {
+        "size": 2862,
+        "mimeType": "image/x-icon",
+        "compression": 0
+    },
+    "redirectURL": "",
+    "headersSize": 473,
+    "bodySize": 2862,
+    "_transferSize": 3335
+}
+
+(function() {
+    var entries = window.performance.getEntries(),
+    key,
+    newArr = [];
+    function copy(obj) {
+        var temp = {}, key;
+        for (key in obj) {
+            temp[key] = obj[key];
+        }
+        return temp;
+    }
+    entries.forEach(function(item) {
+        newArr.push(copy(item));
+    });
+    return newArr;
+}());

@@ -17,6 +17,7 @@ chrome.devtools.panels.create("performance", '../images/selectorInspecer_24_24_4
         panel.onShown.addListener(function tmp(panelWindow) {
             panel.onShown.removeListener(tmp);
             _window = panelWindow;
+            
         });
 	}
 );
