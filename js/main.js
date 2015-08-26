@@ -3,37 +3,6 @@
 
 (function (w) {
     var def = undefined;
-    function sizeof(str, charset) {
-        var total = 0,
-            charCode,
-            i,
-            len;
-        charset = charset ? charset.toLowerCase() : '';
-        if(charset === 'utf-16' || charset === 'utf16'){
-            for(i = 0, len = str.length; i < len; i++){
-                charCode = str.charCodeAt(i);
-                if(charCode <= 0xffff){
-                    total += 2;
-                }else{
-                    total += 4;
-                }
-            }
-        }else{
-            for(i = 0, len = str.length; i < len; i++){
-                charCode = str.charCodeAt(i);
-                if(charCode <= 0x007f) {
-                    total += 1;
-                }else if(charCode <= 0x07ff){
-                    total += 2;
-                }else if(charCode <= 0xffff){
-                    total += 3;
-                }else{
-                    total += 4;
-                }
-            }
-        }
-        return total;
-    }
 
     function getNetworkData () {
         chrome.devtools.inspectedWindow.getResources(function (arr) {
@@ -50,9 +19,76 @@
 
         });
     }
-    function renderData(data) {
+    // 渲染总体请求
+    function renderGeneralData(data, kinds) {
+        //  请求总共耗时    请求总大小压缩后     请求总大小       api请求时间
+        var totalTime = 0, totalSizeGzip = 0, totalSize = 0,  totolApiTime = 0 ,html;
+        data.forEach(function (item) {
+            var response = item.req.response;
+            totalTime += item.duration;
+            totalSizeGzip += response._transferSize;
+            totalSize += response.content.size + response.headersSize;
+        });
+        kinds.api.forEach(function (item) {
+            totolApiTime += item.duration;
+        });
+        totalSizeGzip = totalSizeGzip / 1024;
+        totalSize = totalSize/ 1024;
+        totalTime = totalTime.toFixed(2);
+        totalSizeGzip = totalSizeGzip.toFixed(2);
+        totalSize = totalSize.toFixed(2);
+        totolApiTime = totolApiTime.toFixed(2);
+        html = '<tr>' +
+            '<td>'+totalTime+'ms</td>' +
+            '<td>'+totalSizeGzip+'kb</td>' +
+            '<td>'+totalSize+'kb(首次加载有效)</td>' +
+            '<td>'+totolApiTime+'ms</td>' +
+            '</tr>';
+        $('#generalData').html(html);
+    }
+
+    // 执行url过滤操作
+    function execUrlRules(data, urlArr) {
+        var newData = [], kinds;
+        data.forEach(function (item) {
+            urlArr.forEach(function (val) {
+                if (item.name.indexOf(val) >= 0) {
+                    newData.push(item);
+                }
+            });
+        });
+        kinds = kindData(newData);
 
     }
+
+    // 对数据进行分组
+    function kindData(data) {
+        var js = [], css = [], image = [], api = [], other = [], kinds;
+        data.forEach(function (item) {
+            var mimeType = item.req.response.content.mimeType;
+            if (mimeType.indexOf('javascript') >= 0 && _.find(item.req.request.queryString, function (item) {if(item.name == 'callback'){return item;}})) {
+                api.push(item);
+            } else if(mimeType.indexOf('css') >= 0) {
+                css.push(item);
+            } else if (mimeType.indexOf('javascript') >= 0) {
+                js.push(item);
+            } else if (mimeType.indexOf('image') >= 0) {
+                image.push(item);
+            } else {
+                other.push(item);
+            }
+        });
+        kinds = {
+            js: js,
+            css: css,
+            image: image,
+            api: api,
+            other: other
+        };
+        return kinds;
+    }
+
+    // 获取请求响应数据
     function getEntries(netData) {
         var entries;
         if(chrome && chrome.devtools) {
@@ -65,18 +101,17 @@
                 } else {
                     // window.performance.getEntries()不会获取html文件
                     entries = result;
-                    var a = [], b = [];
-
-                    netData.forEach(function (item) {
-                        a.push(item.request.url);
+                    _.filter(entries, function (entries_item) {
+                        var temp = entries_item;
+                        netData.forEach(function (netData_item) {
+                            if (netData_item.request.url == temp.name) {
+                                temp.req = netData_item;
+                            }
+                        });
+                        return temp;
                     });
-                    entries.forEach(function (item) {
-                        b.push(item.name);
-                    });
-
-                    var c = _.difference(a, b);
-                    // alert(JSON.stringify(aa));
-
+                    renderGeneralData(entries, kindData(entries));
+                    eventUtil(entries);
                 }
             });
         } else {
@@ -95,11 +130,25 @@
                 endTime: def,
                 status: def
             };
-            var PerformanceResourceTiming;
             data2.push({request: request.request, response: request.response});
     });
     w.afterReload = function (msg) {
         getEntries(data2);
+    };
+
+    var eventUtil = function (data) {
+        var $execRules = $('#execRules');
+        $execRules.off();
+        $execRules.on('click', function () {
+            var $inputs = $('.url_fliter_input');
+            var rules = [];
+            $inputs.each(function () {
+                if ($(this).val()) {
+                    rules.push($(this).val());
+                }
+            });
+            execUrlRules(data, rules);
+        });
     };
 
 
