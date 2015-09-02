@@ -19,10 +19,12 @@
 
         });
     }
+
     // 渲染总体请求
-    function renderGeneralData(data, kinds) {
+    function renderGeneralData(data, kinds, type) {
         //  请求总共耗时    请求总大小压缩后     请求总大小       api请求时间
-        var totalTime = 0, totalSizeGzip = 0, totalSize = 0,  totolApiTime = 0 ,html;
+        var totalTime = 0, totalSizeGzip = 0, totalSize = 0,  totolApiTime = 0 ,html,
+            table = $('#generalData');
         data.forEach(function (item) {
             var response = item.req.response;
             totalTime += item.duration;
@@ -38,13 +40,21 @@
         totalSizeGzip = totalSizeGzip.toFixed(2);
         totalSize = totalSize.toFixed(2);
         totolApiTime = totolApiTime.toFixed(2);
+        if (type == '刷新结果') {
+            table.html('');
+        }
+
         html = '<tr>' +
+            '<td>'+type+'</td>' +
             '<td>'+totalTime+'ms</td>' +
             '<td>'+totalSizeGzip+'kb</td>' +
             '<td>'+totalSize+'kb(首次加载有效)</td>' +
             '<td>'+totolApiTime+'ms</td>' +
             '</tr>';
-        $('#generalData').html(html);
+
+        table.append(html);
+
+
     }
 
     // 执行url过滤操作
@@ -57,8 +67,9 @@
                 }
             });
         });
-        kinds = kindData(newData);
 
+        kinds = kindData(newData);
+        renderGeneralData(newData, kinds, '过滤结果');
     }
 
     // 对数据进行分组
@@ -110,7 +121,7 @@
                         });
                         return temp;
                     });
-                    renderGeneralData(entries, kindData(entries));
+                    renderGeneralData(entries, kindData(entries), '刷新结果');
                     eventUtil(entries);
                 }
             });
@@ -132,6 +143,7 @@
             };
             data2.push({request: request.request, response: request.response});
     });
+
     w.afterReload = function (msg) {
         getEntries(data2);
     };
