@@ -13,7 +13,7 @@
                     '<td>'+item.url+'</td>' +
                     '<td>'+item.type+'</td>' +
                     '<td>1233</td>' +
-                    '</tr>'
+                    '</tr>';
             });
             $('#list').html(html);
 
@@ -24,25 +24,42 @@
     function renderGeneralData(data, kinds, type) {
         //  请求总共耗时    请求总大小压缩后     请求总大小       api请求时间
         var totalTime = 0, totalSizeGzip = 0, totalSize = 0,  totolApiTime = 0 ,html,
-            table = $('#generalData');
+            $table = $('#generalData'), $apiTable = $('#apiList'), apiHtml = '';
+
         data.forEach(function (item) {
             var response = item.req.response;
             totalTime += item.duration;
             totalSizeGzip += response._transferSize;
             totalSize += response.content.size + response.headersSize;
         });
+
         kinds.api.forEach(function (item) {
+            var gzip = item.req.response._transferSize, total = item.req.response.content.size,
+                url = item.name.substring(0, item.name.indexOf('?'));
+
+            apiHtml += '<tr>' +
+                '<td>'+url+'</td>' +
+                '<td>'+item.req.response.status+'</td>' +
+                '<td>'+item.duration.toFixed(2)+'ms</td>' +
+                '<td>'+(gzip / 1024).toFixed(2)+'kb</td>' +
+                '<td>'+(total / 1024).toFixed(2)+'kb</td>' +
+                '</tr>';
             totolApiTime += item.duration;
         });
+
         totalSizeGzip = totalSizeGzip / 1024;
         totalSize = totalSize/ 1024;
         totalTime = totalTime.toFixed(2);
         totalSizeGzip = totalSizeGzip.toFixed(2);
         totalSize = totalSize.toFixed(2);
         totolApiTime = totolApiTime.toFixed(2);
+
         if (type == '刷新结果') {
-            table.html('');
+            $table.html('');
         }
+
+
+
 
         html = '<tr>' +
             '<td>'+type+'</td>' +
@@ -52,9 +69,11 @@
             '<td>'+totolApiTime+'ms</td>' +
             '</tr>';
 
-        table.append(html);
 
+        $table.append(html);
 
+        $apiTable.html(apiHtml);
+//        $('#data').append('<p>'+ JSON.stringify(kinds.image) +'</p>')
     }
 
     // 执行url过滤操作
@@ -71,6 +90,8 @@
         kinds = kindData(newData);
         renderGeneralData(newData, kinds, '过滤结果');
     }
+
+
 
     // 对数据进行分组
     function kindData(data) {
