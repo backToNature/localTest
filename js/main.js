@@ -62,11 +62,8 @@
 
 
         html = '<tr>' +
-<<<<<<< HEAD
             '<td>总计</td>' +
-=======
             '<td>'+type+'</td>' +
->>>>>>> d57606edfa5e3c4f95cb4afc2912772ea8ef206a
             '<td>'+totalTime+'ms</td>' +
             '<td>'+totalSizeGzip+'kb</td>' +
             '<td>'+totalSize+'kb(首次加载有效)</td>' +
@@ -90,11 +87,8 @@
                 }
             });
         });
-<<<<<<< HEAD
         kinds = kindData(newData);
         renderGeneralData(newData, kinds);
-=======
->>>>>>> d57606edfa5e3c4f95cb4afc2912772ea8ef206a
 
         kinds = kindData(newData);
         renderGeneralData(newData, kinds, '过滤结果');
