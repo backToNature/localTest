@@ -39,6 +39,7 @@
         totalSize = totalSize.toFixed(2);
         totolApiTime = totolApiTime.toFixed(2);
         html = '<tr>' +
+            '<td>总计</td>' +
             '<td>'+totalTime+'ms</td>' +
             '<td>'+totalSizeGzip+'kb</td>' +
             '<td>'+totalSize+'kb(首次加载有效)</td>' +
@@ -58,6 +59,7 @@
             });
         });
         kinds = kindData(newData);
+        renderGeneralData(newData, kinds);
 
     }
 
