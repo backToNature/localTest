@@ -7,6 +7,7 @@
 </head>
 <body>
 
+<<<<<<< HEAD
     <div class="url_fliter">
         <h3>配置要过滤的url</h3>
         <label for="url_fliter_input1">url:</label><input class="url_fliter_input" value="changyan.sohu.com" type="text" id="url_fliter_input1">
@@ -14,7 +15,17 @@
         <label for="url_fliter_input3">url:</label><input class="url_fliter_input" value="changyan.itc.cn" type="text" id="url_fliter_input3">
         <button id="execRules">查看</button>
     </div>
+=======
+
+>>>>>>> d57606edfa5e3c4f95cb4afc2912772ea8ef206a
     <div id="data">
+        <div class="url_fliter">
+            <h4>配置要过滤的url</h4>
+            <label for="url_fliter_input1">url1:</label><input class="url_fliter_input" value="changyan.sohu.com" type="text" id="url_fliter_input1">
+            <label for="url_fliter_input2">url2:</label><input class="url_fliter_input" value="e.changyan.sohu.com" type="text" id="url_fliter_input2">
+            <label for="url_fliter_input3">url3:</label><input class="url_fliter_input" value="changyan.itc.cn" type="text" id="url_fliter_input3">
+            <button id="execRules">查看</button>
+        </div>
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -27,6 +38,23 @@
             </thead>
             <tbody id="generalData">
 
+
+            </tbody>
+        </table>
+    </div>
+    <div id="apiStatus">
+        <h4>接口请求状态</h4>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>url</th>
+                <th>状态码</th>
+                <th>请求时间</th>
+                <th>请求大小(gzip)</th>
+                <th>请求大小(未压缩)</th>
+            </tr>
+            </thead>
+            <tbody id="apiList">
 
             </tbody>
         </table>

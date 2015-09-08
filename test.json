@@ -179,20 +179,4 @@
     "_transferSize": 3335
 }
 
-(function() {
-    var entries = window.performance.getEntries(),
-    key,
-    newArr = [];
-    function copy(obj) {
-        var temp = {}, key;
-        for (key in obj) {
-            temp[key] = obj[key];
-        }
-        return temp;
-    }
-    entries.forEach(function(item) {
-        newArr.push(copy(item));
-    });
-    return newArr;
-}());
 
