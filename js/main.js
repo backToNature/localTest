@@ -16,8 +16,16 @@
                     '</tr>';
             });
             $('#list').html(html);
-
         });
+    }
+
+    function getApiListTemplate(arr) {
+        var body = '';
+        _.each(arr, function (item) {
+            body += '<td>'+item+'</td>';
+        });
+        var apiHtml = '<tr>' +body+'</tr>';
+        return apiHtml;
     }
 
     // 渲染总体请求
@@ -36,14 +44,15 @@
         kinds.api.forEach(function (item) {
             var gzip = item.req.response._transferSize, total = item.req.response.content.size,
                 url = item.name.substring(0, item.name.indexOf('?'));
-
-            apiHtml += '<tr>' +
-                '<td>'+url+'</td>' +
-                '<td>'+item.req.response.status+'</td>' +
-                '<td>'+item.duration.toFixed(2)+'ms</td>' +
-                '<td>'+(gzip / 1024).toFixed(2)+'kb</td>' +
-                '<td>'+(total / 1024).toFixed(2)+'kb</td>' +
-                '</tr>';
+            var tplData = [
+                    url, 
+                    item.req.response.status, 
+                    item.duration.toFixed(2)+'ms', 
+                    (gzip / 1024).toFixed(2)+'kb',
+                    (total / 1024).toFixed(2)+'kb'
+                ];
+            var apiTpl = getApiListTemplate(tplData);
+            apiHtml += apiTpl;
             totolApiTime += item.duration;
         });
 
@@ -57,12 +66,7 @@
         if (type == '刷新结果') {
             $table.html('');
         }
-
-
-
-
         html = '<tr>' +
-            '<td>总计</td>' +
             '<td>'+type+'</td>' +
             '<td>'+totalTime+'ms</td>' +
             '<td>'+totalSizeGzip+'kb</td>' +
@@ -87,9 +91,6 @@
                 }
             });
         });
-        kinds = kindData(newData);
-        renderGeneralData(newData, kinds);
-
         kinds = kindData(newData);
         renderGeneralData(newData, kinds, '过滤结果');
     }
@@ -123,9 +124,23 @@
         return kinds;
     }
 
-    // 获取请求响应数据
-    function getEntries(netData) {
-        var entries;
+    // 合并entries数据与请求数据
+    function merge_entries_and_netData(entries, netData) {
+
+        var merge =  _.filter(entries, function (entries_item) {
+            var temp = entries_item;
+            netData.forEach(function (netData_item) {
+                if (netData_item.request.url == temp.name) {
+                    temp.req = netData_item;
+                }
+            });
+            return temp;
+        });
+        return merge;
+    }
+
+    // 获取请求响应数据并执行回调
+    function getEntries(fn) {
         if(chrome && chrome.devtools) {
             var devTools = chrome.devtools;
             var inspectedWindow = devTools.inspectedWindow;
@@ -134,27 +149,16 @@
                 if(e) {
                     document.body.innerHTML = 'Eval code error : ' + e;
                 } else {
-                    // window.performance.getEntries()不会获取html文件
-                    entries = result;
-                    _.filter(entries, function (entries_item) {
-                        var temp = entries_item;
-                        netData.forEach(function (netData_item) {
-                            if (netData_item.request.url == temp.name) {
-                                temp.req = netData_item;
-                            }
-                        });
-                        return temp;
-                    });
-                    renderGeneralData(entries, kindData(entries), '刷新结果');
-                    eventUtil(entries);
+                    if (_.isFunction(fn)) {
+                        fn(result);
+                    }
                 }
             });
         } else {
             entries = window.performance.getEntries();
         }
     }
-
-    var data2 = [];
+    var netData = [];
     chrome.devtools.network.onRequestFinished.addListener(
         function(request) {
             var item = {
@@ -165,11 +169,62 @@
                 endTime: def,
                 status: def
             };
-            data2.push({request: request.request, response: request.response});
+            netData.push({request: request.request, response: request.response});
     });
+    
+
+    
+
+    // 初始化
+    function init() {
+        getEntries(function (entries) {
+            // 合并后的数据
+            var merge = merge_entries_and_netData(entries, netData);
+            renderGeneralData(merge, kindData(merge), '刷新结果');
+            eventUtil(merge);
+        });
+    }
+
+    // 网络监控
+    var monitor = {
+        init: function () {
+            var self = this;
+            chrome.devtools.network.onRequestFinished.addListener(
+                function(request) {
+                    self.apiMonitor(request);
+            });
+        },
+        // 监控api请求
+        apiMonitor: function (request) {
+            var mimeType = request.response.content.mimeType;
+            // 判断是否是jsonp
+            if (mimeType.indexOf('javascript') >= 0 && _.find(request.request.queryString, function (item) {if(item.name == 'callback'){return item;}})) {
+                getEntries(function (entries) {
+                    var reverseEntries = entries.reverse();
+                    _.find(reverseEntries, function (item) {
+                        if (item.name == request.request.url) {
+                            var gzip = request.response._transferSize, total = request.response.content.size,
+                            url = item.name.substring(0, item.name.indexOf('?'));
+                            var tplData = [
+                                    url, 
+                                    request.response.status, 
+                                    item.duration.toFixed(2)+'ms', 
+                                    (gzip / 1024).toFixed(2)+'kb',
+                                    (total / 1024).toFixed(2)+'kb'
+                                ];
+                            var apiTpl = getApiListTemplate(tplData);
+                            $('#apiList').append(apiTpl);
+                        }
+                    });
+                });
+            }
+        }
+    };
 
     w.afterReload = function (msg) {
-        getEntries(data2);
+        init();
+        // 开启监控
+        monitor.init();
     };
 
     var eventUtil = function (data) {
