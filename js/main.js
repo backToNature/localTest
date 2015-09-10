@@ -43,7 +43,7 @@
 
         kinds.api.forEach(function (item) {
             var gzip = item.req.response._transferSize, total = item.req.response.content.size,
-                url = item.name.substring(0, item.name.indexOf('?'));
+                url = item.name.indexOf('?') >= 0? item.name.substring(0, item.name.indexOf('?')) : item.name;
             var tplData = [
                     url, 
                     item.req.response.status, 
@@ -78,7 +78,6 @@
         $table.append(html);
 
         $apiTable.html(apiHtml);
-//        $('#data').append('<p>'+ JSON.stringify(kinds.image) +'</p>')
     }
 
     // 执行url过滤操作
@@ -102,7 +101,7 @@
         var js = [], css = [], image = [], api = [], other = [], kinds;
         data.forEach(function (item) {
             var mimeType = item.req.response.content.mimeType;
-            if (mimeType.indexOf('javascript') >= 0 && _.find(item.req.request.queryString, function (item) {if(item.name == 'callback'){return item;}})) {
+            if (mimeType.indexOf('json') >=0 || (mimeType.indexOf('javascript') >= 0 && _.find(item.req.request.queryString, function (item) {if(item.name == 'callback'){return item;}}))) {
                 api.push(item);
             } else if(mimeType.indexOf('css') >= 0) {
                 css.push(item);
@@ -197,14 +196,14 @@
         // 监控api请求
         apiMonitor: function (request) {
             var mimeType = request.response.content.mimeType;
-            // 判断是否是jsonp
-            if (mimeType.indexOf('javascript') >= 0 && _.find(request.request.queryString, function (item) {if(item.name == 'callback'){return item;}})) {
+            // 判断是否是api
+            if (mimeType.indexOf('json') >=0 || (mimeType.indexOf('javascript') >= 0 && _.find(item.req.request.queryString, function (item) {if(item.name == 'callback'){return item;}}))) {
                 getEntries(function (entries) {
                     var reverseEntries = entries.reverse();
                     _.find(reverseEntries, function (item) {
                         if (item.name == request.request.url) {
                             var gzip = request.response._transferSize, total = request.response.content.size,
-                            url = item.name.substring(0, item.name.indexOf('?'));
+                            url = item.name.indexOf('?') >= 0? item.name.substring(0, item.name.indexOf('?')) : item.name;
                             var tplData = [
                                     url, 
                                     request.response.status, 

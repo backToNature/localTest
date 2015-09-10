@@ -1,182 +1,119 @@
 {
-    method: "GET",
-    url: "http://open.chrome.360.cn/extension_dev/sidebar.js",
-    httpVersion: "HTTP/1.1",
-    headers: [
-        {
-            name: "Cookie",
-            value: "__huid=10jO689BNlu%2B%2ByGntIlJBPXz2nWq0fSwA4xLM2TAU46Hg%3D"
-        },
-        {
-            name: "RA-Sid",
-            value: "7B7E46EF-20150105-060411-8f873d-c14acc"
-        },
-        {
-            name: "Accept-Encoding",
-            value: "gzip, deflate, sdch"
-        },
-        {
-            name: "Host",
-            value: "open.chrome.360.cn"
-        },
-        {
-            name: "Accept-Language",
-            value: "zh-CN,zh;q=0.8,en;q=0.6"
-        },
-        {
-            name: "User-Agent",
-            value: "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.155 Safari/537.36"
-        },
-        {
-            name: "Accept",
-            value: "*/*"
-        },
-        {
-            name: "Cache-Control",
-            value: "max-age=0"
-        },
-        {
-            name: "Referer",
-            value: "http://open.chrome.360.cn/extension_dev/devtools.network.html"
-        },
-        {
-            name: "Proxy-Connection",
-            value: "keep-alive"
-        },
-        {
-            name: "RA-Ver",
-            value: "3.0.7"
-        },
-        {
-            name: "If-Modified-Since",
-            value: "Tue, 10 Jun 2014 08:47:20 GMT"
-        }
-    ],
-    queryString: [ ],
-    cookies: [
-        {
-            name: "__huid",
-            value: "10jO689BNlu%2B%2ByGntIlJBPXz2nWq0fSwA4xLM2TAU46Hg%3D",
-            expires: null,
-            httpOnly: false,
-            secure: false
-        }
-    ],
-    headersSize: 619,
-    bodySize: 0
-}
-
-
-{
-    "status": 200,
-    "statusText": "OK",
-    "httpVersion": "HTTP/1.1",
-    "headers": [
-        {
-            "name": "Date",
-            "value": "Tue, 25 Aug 2015 16:12:13 GMT"
-        },
-        {
-            "name": "Server",
-            "value": "FSS"
-        },
-        {
-            "name": "Connection",
-            "value": "keep-alive"
-        },
-        {
-            "name": "P3P",
-            "value": "CP=\"CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR\""
-        },
-        {
-            "name": "Content-Length",
-            "value": "0"
-        },
-        {
-            "name": "Content-Type",
-            "value": "application/x-javascript"
-        }
-    ],
-    "cookies": [],
-    "content": {
-        "size": 0,
-        "mimeType": "application/x-javascript",
-        "compression": 0
+    "startedDateTime": "2015-09-10T12:08:07.740Z",
+    "time": 5.354000022634864,
+    "request": {
+        "method": "GET",
+        "url": "http://localhost:3000/users/userInfo",
+        "httpVersion": "HTTP/1.1",
+        "headers": [
+            {
+                "name": "Cookie",
+                "value": "guohaoapp=s%3AfD4kc6Ar3EebVU1tX5sTxp7SWyIVWLLw.7JqfUsT%2Fs%2BINfjlyD7D5J1%2FRYbvMTW9Qz5GwkZohRyc"
+            },
+            {
+                "name": "If-None-Match",
+                "value": "W/\"32-rTwGdADrratvyDlvzW6t1w\""
+            },
+            {
+                "name": "RA-Sid",
+                "value": "7B7E46EF-20150105-060411-8f873d-c14acc"
+            },
+            {
+                "name": "Accept-Encoding",
+                "value": "gzip, deflate, sdch"
+            },
+            {
+                "name": "Host",
+                "value": "localhost:3000"
+            },
+            {
+                "name": "Accept-Language",
+                "value": "zh-CN,zh;q=0.8,en;q=0.6"
+            },
+            {
+                "name": "User-Agent",
+                "value": "Mozilla/5.0 (iPad; CPU OS 7_0 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.53"
+            },
+            {
+                "name": "Accept",
+                "value": "*/*"
+            },
+            {
+                "name": "Cache-Control",
+                "value": "max-age=0"
+            },
+            {
+                "name": "X-Requested-With",
+                "value": "XMLHttpRequest"
+            },
+            {
+                "name": "Proxy-Connection",
+                "value": "keep-alive"
+            },
+            {
+                "name": "RA-Ver",
+                "value": "3.0.7"
+            },
+            {
+                "name": "Referer",
+                "value": "http://localhost:3000/src/html/bill.html"
+            }
+        ],
+        "queryString": [],
+        "cookies": [
+            {
+                "name": "guohaoapp",
+                "value": "s%3AfD4kc6Ar3EebVU1tX5sTxp7SWyIVWLLw.7JqfUsT%2Fs%2BINfjlyD7D5J1%2FRYbvMTW9Qz5GwkZohRyc",
+                "expires": null,
+                "httpOnly": false,
+                "secure": false
+            }
+        ],
+        "headersSize": 664,
+        "bodySize": 0
     },
-    "redirectURL": "",
-    "headersSize": 244,
-    "bodySize": 0,
-    "_transferSize": 244
-}
-
-{
-    "status": 200,
-    "statusText": "OK",
-    "httpVersion": "HTTP/1.1",
-    "headers": [
-        {
-            "name": "Date",
-            "value": "Tue, 25 Aug 2015 15:24:47 GMT"
+    "response": {
+        "status": 304,
+        "statusText": "Not Modified",
+        "httpVersion": "HTTP/1.1",
+        "headers": [
+            {
+                "name": "Date",
+                "value": "Thu, 10 Sep 2015 12:08:07 GMT"
+            },
+            {
+                "name": "ETag",
+                "value": "W/\"32-rTwGdADrratvyDlvzW6t1w\""
+            },
+            {
+                "name": "Connection",
+                "value": "keep-alive"
+            },
+            {
+                "name": "X-Powered-By",
+                "value": "Express"
+            }
+        ],
+        "cookies": [],
+        "content": {
+            "size": 50,
+            "mimeType": "application/json"
         },
-        {
-            "name": "Via",
-            "value": "cache63.l2et2-1[0,304-0,H], cache33.l2et2-1[1,0], kunlun10.cn143[80,200-0,H], kunlun8.cn143[80,0]"
-        },
-        {
-            "name": "Last-Modified",
-            "value": "Wed, 15 Jul 2015 07:20:30 GMT"
-        },
-        {
-            "name": "Server",
-            "value": "Tengine"
-        },
-        {
-            "name": "Age",
-            "value": "3022"
-        },
-        {
-            "name": "ETag",
-            "value": "\"55a609be-b2e\""
-        },
-        {
-            "name": "X-Cache",
-            "value": "HIT TCP_REFRESH_HIT dirn:6:291481914"
-        },
-        {
-            "name": "Content-Type",
-            "value": "image/x-icon"
-        },
-        {
-            "name": "X-Swift-CacheTime",
-            "value": "3600"
-        },
-        {
-            "name": "Connection",
-            "value": "keep-alive"
-        },
-        {
-            "name": "Accept-Ranges",
-            "value": "bytes"
-        },
-        {
-            "name": "Content-Length",
-            "value": "2862"
-        },
-        {
-            "name": "X-Swift-SaveTime",
-            "value": "Tue, 25 Aug 2015 16:15:09 GMT"
-        }
-    ],
-    "cookies": [],
-    "content": {
-        "size": 2862,
-        "mimeType": "image/x-icon",
-        "compression": 0
+        "redirectURL": "",
+        "headersSize": 150,
+        "bodySize": 0,
+        "_transferSize": 150
     },
-    "redirectURL": "",
-    "headersSize": 473,
-    "bodySize": 2862,
-    "_transferSize": 3335
+    "cache": {},
+    "timings": {
+        "blocked": 1.80700002238154,
+        "dns": -1,
+        "connect": -1,
+        "send": 0.12899993453175007,
+        "wait": 3.02500010002405,
+        "receive": 0.39299996569752427,
+        "ssl": -1
+    },
+    "connection": "77071",
+    "pageref": "page_1"
 }
-
-
