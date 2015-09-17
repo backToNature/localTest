@@ -9,13 +9,11 @@
 
     <div id="data">
         <div class="url_fliter">
-            <h4>配置要过滤的url</h4>
-            <label for="url_fliter_input1">url1:</label><input class="url_fliter_input" value="changyan.sohu.com" type="text" id="url_fliter_input1">
-            <label for="url_fliter_input2">url2:</label><input class="url_fliter_input" value="e.changyan.sohu.com" type="text" id="url_fliter_input2">
-            <label for="url_fliter_input3">url3:</label><input class="url_fliter_input" value="changyan.itc.cn" type="text" id="url_fliter_input3">
+            <h4>配置url过滤正则</h4>
+            <label for="url_fliter_input">正则：</label><input placeholder="请输入正则表达式" class="url_fliter_input" value="changyan" type="text" id="url_fliter_input">
             <button id="execRules">查看</button>
         </div>
-        <table class="table table-hover">
+        <table class="table table-hover table-bordered">
             <thead>
                 <tr>
                     <th>类型</th>
@@ -33,7 +31,7 @@
     </div>
     <div id="apiStatus">
         <h4>接口请求状态</h4>
-        <table class="table table-hover">
+        <table class="table table-hover table-bordered">
             <thead>
             <tr>
                 <th>url</th>
